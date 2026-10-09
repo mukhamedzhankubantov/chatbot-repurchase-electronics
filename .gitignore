@@ -1,0 +1,49 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs and temporary files
+*.log
+logs/
+*.tmp
+*.bak
+
+# Raw / large data (only the small sample is tracked)
+data/raw/*
+!data/raw/.gitkeep
+*.sav
+*.parquet
+
+# Model weights and binaries
+*.pkl
+*.joblib
+*.h5
+*.pt
+*.pth
+*.onnx
+*.zip
+
+# Generated results (keep the folder, ignore outputs)
+results/*
+!results/.gitkeep
+
+# Secrets
+.env
+*.key
+secrets.*
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
