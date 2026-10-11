@@ -1,0 +1,50 @@
+# Reproducibility
+seed: 42
+
+# Paths
+paths:
+  data: data/sample/survey_sample.csv   # replace with data/raw/... for the full study
+  results_dir: results
+  log_file: results/run.log
+
+# Survey constructs: each is the mean of its Likert items (1-5)
+constructs:
+  PERS:    [PERS1, PERS2, PERS3]          # chatbot personalization (IV, RQ1/RQ3)
+  AVAIL:   [AVAIL1, AVAIL2, AVAIL3]       # perceived 24/7 availability (IV, RQ2/RQ3)
+  SAT:     [SAT1, SAT2, SAT3]             # customer satisfaction (DV RQ1, mediator)
+  TRUST:   [TRUST1, TRUST2, TRUST3]       # brand trust (DV RQ2, mediator)
+  REPUR:   [REPUR1, REPUR2, REPUR3]       # repurchase intention (DV RQ3)
+  TECH:    [TECH1, TECH2, TECH3]          # tech-savviness (moderator)
+  COMPLEX: [COMPLEX1, COMPLEX2, COMPLEX3] # product price/complexity (moderator)
+
+# Control variables (single columns)
+controls: [age, income, purchase_freq]
+
+# Models to estimate (one per hypothesis)
+models:
+  H1:
+    dv: SAT
+    predictors: [PERS]
+  H2:
+    dv: TRUST
+    predictors: [AVAIL]
+  H3a:
+    dv: REPUR
+    predictors: [PERS, AVAIL, "PERS:AVAIL", SAT, TRUST]
+  H3b:
+    dv: TRUST
+    predictors: [AVAIL, TECH, COMPLEX, "AVAIL:TECH", "AVAIL:COMPLEX"]
+
+# Metrics
+metrics:
+  primary: [standardized_beta, p_value, r_squared]
+  guardrail:
+    cronbach_alpha_min: 0.70   # reliability threshold
+    vif_max: 5.0               # multicollinearity threshold
+  baseline: controls_only      # model with control variables only
+
+# Inference
+alpha: 0.05
+bootstrap:
+  enabled: true
+  n_resamples: 2000
