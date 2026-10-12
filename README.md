@@ -1,7 +1,17 @@
 # Chatbot Personalization, 24/7 Availability and Repurchase Intention in Online Consumer Electronics
 
-**Authors:** Mukhamedzhan Kubantov, Rakhimbek Baizhan
+**Authors:** Kubantov Mukhamedzhan, Rakhimbek Baizhan  
 **Course:** Research Methods (Task 2: Reproducible Research Repository)
+
+## Overview
+
+This repository accompanies a quantitative survey study on how AI chatbot personalization and perceived 24/7 availability affect customer satisfaction, brand trust and repurchase intention in online consumer electronics. It contains the methodology card, configuration, sample data and a reproducible analysis pipeline.
+
+## System Requirements
+
+- Docker (recommended), or Python 3.12 with the packages in `requirements.txt`
+- Git
+- About 500 MB of free disk space for the Docker image; no GPU needed
 
 ## Research Question
 
@@ -34,6 +44,7 @@ The file in `data/sample/` is **synthetic** (10 rows) and is meant only to verif
     |-- Dockerfile
     |-- requirements.txt        # pinned dependencies
     +-- LICENSE                 # MIT
+
 ## Quickstart
 
 **With Docker (recommended):**
@@ -76,6 +87,10 @@ Reliability guardrail: Cronbach's alpha >= 0.70 for every construct (see `result
 - Random seed fixed in `configs/config.yaml`.
 - Dependency versions pinned in `requirements.txt`; base image `python:3.12-slim`.
 - Every parameter is in the config file; no values are hard-coded in the script.
+
+## Citation
+
+Kubantov, M., & Baizhan, R. (2026). *Chatbot personalization, 24/7 availability and repurchase intention in online consumer electronics* [Computer software]. GitHub. https://github.com/mukhamedzhankubantov/chatbot-repurchase-electronics
 
 ## License
 
