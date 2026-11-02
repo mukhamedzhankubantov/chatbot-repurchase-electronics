@@ -47,3 +47,6 @@ secrets.*
 Thumbs.db
 .vscode/
 .idea/
+
+# Task 3: keep the small raw timing log (contains no personal data)
+!data/raw/test_run.jsonl
