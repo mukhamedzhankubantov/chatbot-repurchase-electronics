@@ -88,6 +88,45 @@ Reliability guardrail: Cronbach's alpha >= 0.70 for every construct (see `result
 - Dependency versions pinned in `requirements.txt`; base image `python:3.12-slim`.
 - Every parameter is in the config file; no values are hard-coded in the script.
 
+## Task 3: Performance Benchmark of the Bootstrap Pipeline
+
+### Goal
+
+Measure how the bootstrap step of the analysis pipeline (the core of Task 2) behaves under growing load, and compare a baseline implementation with a proposed vectorized one. The measurements describe the performance of the pipeline, not the results of the survey study. All data are synthetic.
+
+### Methods compared
+
+- **Baseline:** one least-squares fit per bootstrap resample inside a Python loop.
+- **Proposed:** all resamples are solved in one vectorized batch (resample counts and two matrix products).
+
+Both methods use the same seed and the same data. A formal description is in [docs/domain_model.md](docs/domain_model.md).
+
+### Experimental protocol
+
+- Load: 50, 100, 200, 500, 1000, 2000 and 5000 respondents (6 predictors, 200 bootstrap resamples per run).
+- For every method and load: 5 warm-up runs (discarded in the analysis) and 50 evaluation runs.
+- Latency is wall-clock time of one run in milliseconds; peak memory is measured in a separate pass so that memory tracing does not distort latency.
+- A run counts as an error if it fails or returns non-finite values.
+- Random seed: 42.
+
+### Reproduce
+
+```bash
+python src/run_experiment.py --out data/raw/test_run.jsonl
+python src/process_data.py
+python src/visualize.py
+```
+
+### Data and outputs
+
+| File | Content |
+|---|---|
+| `data/raw/test_run.jsonl` | Raw log, one JSON object per run, warm-up and evaluation phases |
+| `data/processed/metrics_summary.csv` | Median, mean, SD, p25, p75, p95, p99, bootstrap 95% CI of the median, error rate, peak memory per method and load |
+| `reports/figures/fig1_latency_vs_load.pdf` / `.png` | Median latency vs load with 95% CI |
+| `reports/figures/fig2_distribution_boxplot.pdf` / `.png` | Latency distribution per method and load |
+| `docs/data_contract.md` | Exact schema of the raw and processed files |
+
 ## Citation
 
 Kubantov, M., & Baizhan, R. (2026). *Chatbot personalization, 24/7 availability and repurchase intention in online consumer electronics* [Computer software]. GitHub. https://github.com/mukhamedzhankubantov/chatbot-repurchase-electronics
