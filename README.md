@@ -127,6 +127,39 @@ python src/visualize.py
 | `reports/figures/fig2_distribution_boxplot.pdf` / `.png` | Latency distribution per method and load |
 | `docs/data_contract.md` | Exact schema of the raw and processed files |
 
+## Results & Discussion
+
+All numbers below come from `notebooks/01_data_analysis.ipynb` and `data/processed/metrics_summary.csv`. The data are synthetic and were measured on one machine: 5 warm-up runs (discarded) and 50 evaluation runs per method and load, 200 bootstrap resamples per run, seed 42.
+
+### Summary benchmark table (Baseline vs Proposed)
+
+Latency is reported as the median with the interquartile range (p25-p75) in milliseconds; the speed-up is the baseline median divided by the proposed median. The full table with mean, SD, p99, 95% CI of the median, error rate and peak memory is in `data/processed/metrics_summary.csv`.
+
+<<<PASTE THE TABLE HERE>>>
+
+### Figures
+
+![Latency Plot](reports/figures/fig1_latency_vs_load.png)
+
+*Figure 1. Median latency (ms) versus load (number of respondents) with 95% bootstrap confidence intervals, log-log axes.*
+
+![Latency Distribution](reports/figures/fig2_distribution_boxplot.png)
+
+*Figure 2. Distribution of evaluation-run latency (ms) at 100, 1000 and 5000 respondents; boxes show p25-p75, whiskers 1.5 x IQR.*
+
+### Discussion
+
+The baseline fits the 200 bootstrap resamples one by one in a Python loop. The proposed method replaces the loop with two matrix products and one batched solve, which removes the per-resample Python overhead but builds a larger intermediate array. The key findings, computed in the notebook:
+
+<<<PASTE THE 4 NUMBERED LINES HERE>>>
+
+### Limitations
+
+The data are synthetic and the measurements come from a single machine, so absolute times depend on the hardware. The benchmark describes the performance of the analysis pipeline, not the conclusions of the survey study.
+
+### Domain model
+
+The model, loss function and metrics are defined formally in [docs/domain_model.md](docs/domain_model.md).
 ## Citation
 
 Kubantov, M., & Baizhan, R. (2026). *Chatbot personalization, 24/7 availability and repurchase intention in online consumer electronics* [Computer software]. GitHub. https://github.com/mukhamedzhankubantov/chatbot-repurchase-electronics
