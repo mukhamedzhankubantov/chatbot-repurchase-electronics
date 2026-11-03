@@ -49,7 +49,7 @@ def save_figure(fig, out_dir, name):
     """Save vector PDF and 300-DPI PNG."""
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    fig.savefig(out_dir / f"{name}.pdf", bbox_inches="tight")
+    fig.savefig(out_dir / f"{name}.pdf", bbox_inches="tight", metadata={"CreationDate": None})
     fig.savefig(out_dir / f"{name}.png", dpi=300, bbox_inches="tight")
     plt.close(fig)
 
