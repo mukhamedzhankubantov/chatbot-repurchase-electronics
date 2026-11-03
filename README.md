@@ -135,7 +135,17 @@ All numbers below come from `notebooks/01_data_analysis.ipynb` and `data/process
 
 Latency is reported as the median with the interquartile range (p25-p75) in milliseconds; the speed-up is the baseline median divided by the proposed median. The full table with mean, SD, p99, 95% CI of the median, error rate and peak memory is in `data/processed/metrics_summary.csv`.
 
-<<<PASTE THE TABLE HERE>>>
+
+| Respondents | Baseline median (p25-p75), ms | Proposed median (p25-p75), ms | Speed-up (x) | Baseline p95, ms | Proposed p95, ms |
+|---|---|---|---|---|---|
+| 50 | 5.98 (5.69-6.91) | 0.69 (0.67-0.90) | 8.61 | 8.43 | 1.23 |
+| 100 | 6.47 (6.18-7.28) | 1.42 (1.39-1.51) | 4.56 | 9.19 | 1.67 |
+| 200 | 7.10 (6.96-8.07) | 2.59 (2.49-2.79) | 2.75 | 9.66 | 3.06 |
+| 500 | 9.87 (9.57-10.97) | 6.52 (6.38-6.95) | 1.51 | 12.92 | 7.95 |
+| 1000 | 14.07 (13.90-15.12) | 12.22 (11.91-12.95) | 1.15 | 18.51 | 14.14 |
+| 2000 | 32.60 (31.81-38.47) | 23.70 (23.43-24.47) | 1.38 | 47.27 | 27.16 |
+| 5000 | 74.50 (72.61-76.16) | 59.29 (57.02-63.04) | 1.26 | 84.76 | 86.56 |
+
 
 ### Figures
 
@@ -151,7 +161,10 @@ Latency is reported as the median with the interquartile range (p25-p75) in mill
 
 The baseline fits the 200 bootstrap resamples one by one in a Python loop. The proposed method replaces the loop with two matrix products and one batched solve, which removes the per-resample Python overhead but builds a larger intermediate array. The key findings, computed in the notebook:
 
-<<<PASTE THE 4 NUMBERED LINES HERE>>>
+1. The proposed method is 1.1x to 8.6x faster than the baseline (median latency) across all loads.
+2. Maximum error rate over all methods and loads: 0.0%.
+3. The very first run is at most 12.86x the evaluation median; the cold-start effect is small here, but warm-up runs are still discarded as a precaution.
+4. The proposed method uses 11x to 43x more peak memory than the baseline: speed is bought with memory.
 
 ### Limitations
 
