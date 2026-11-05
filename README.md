@@ -1,8 +1,7 @@
 # Chatbot Personalization, 24/7 Availability and Repurchase Intention in Online Consumer Electronics
 
 **Authors:** Kubantov Mukhamedzhan, Rakhimbek Baizhan  
-**Course:** Research Methods (Task 2: Reproducible Research Repository)
-
+**Course:** Research Methods (Task 2 and Task 3)
 ## Overview
 
 This repository accompanies a quantitative survey study on how AI chatbot personalization and perceived 24/7 availability affect customer satisfaction, brand trust and repurchase intention in online consumer electronics. It contains the methodology card, configuration, sample data and a reproducible analysis pipeline.
@@ -33,17 +32,24 @@ The file in `data/sample/` is **synthetic** (10 rows) and is meant only to verif
 ## Repository Structure
 
     .
-    |-- configs/config.yaml     # all settings
+    |-- configs/config.yaml          # all settings
     |-- data/
-    |   |-- sample/             # synthetic 10-row sample (tracked)
-    |   +-- raw/                # real survey data (git-ignored)
-    |-- src/benchmark.py        # analysis pipeline
-    |-- notebooks/              # exploratory notebooks
-    |-- docs/                   # methodology card and notes
-    |-- results/                # generated outputs (git-ignored)
+    |   |-- sample/                  # synthetic 10-row survey sample (tracked)
+    |   |-- raw/                     # raw logs; real survey data is git-ignored
+    |   |   `-- test_run.jsonl       # raw benchmark log (tracked)
+    |   `-- processed/               # metrics_summary.csv
+    |-- docs/                        # methodology card, domain model, data contract
+    |-- notebooks/                   # 01_data_analysis.ipynb
+    |-- reports/figures/             # fig1, fig2 (PDF and PNG)
+    |-- results/                     # Task 2 outputs (git-ignored)
+    |-- src/
+    |   |-- benchmark.py             # Task 2 survey analysis pipeline
+    |   |-- run_experiment.py        # generates the raw benchmark log
+    |   |-- process_data.py          # warm-up filtering and aggregation
+    |   `-- visualize.py             # publication-ready figures
     |-- Dockerfile
-    |-- requirements.txt        # pinned dependencies
-    +-- LICENSE                 # MIT
+    |-- requirements.txt             # pinned dependencies
+    `-- LICENSE                      # MIT
 
 ## Quickstart
 
@@ -163,7 +169,7 @@ The baseline fits the 200 bootstrap resamples one by one in a Python loop. The p
 
 1. The proposed method is 1.1x to 8.6x faster than the baseline (median latency) across all loads.
 2. Maximum error rate over all methods and loads: 0.0%.
-3. The very first run is at most 12.86x the evaluation median; the cold-start effect is small here, but warm-up runs are still discarded as a precaution.
+3. The very first run is up to 12.86x slower than the evaluation median, which confirms that warm-up runs must be discarded.
 4. The proposed method uses 11x to 43x more peak memory than the baseline: speed is bought with memory.
 
 ### Limitations
@@ -173,6 +179,7 @@ The data are synthetic and the measurements come from a single machine, so absol
 ### Domain model
 
 The model, loss function and metrics are defined formally in [docs/domain_model.md](docs/domain_model.md).
+
 ## Citation
 
 Kubantov, M., & Baizhan, R. (2026). *Chatbot personalization, 24/7 availability and repurchase intention in online consumer electronics* [Computer software]. GitHub. https://github.com/mukhamedzhankubantov/chatbot-repurchase-electronics
